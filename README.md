@@ -1,6 +1,9 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Clone this repository: `git clone https://github.com/dzianis-pipko/Hacker-News.git`
+- Change into Hacker-Hews repository: `cd Hacker-News`
+- Install all NPM packages: `npm i`
+- Start the project: `npm run start`
 
 ## Available Scripts
 
