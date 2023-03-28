@@ -1,0 +1,8 @@
+export const BASE_URL = 'https://hacker-news.firebaseio.com/v0/';
+export const NEW_STORIES_URL = `${BASE_URL}newstories.json`;
+export const ITEM_URL = `${BASE_URL}item/`;
+export const TOP_STORIES_URL = `${BASE_URL}topstories.json`;
+
+export const MAX_STORIES = 100;
+
+export const ONE_MIN = 60 * 1000;

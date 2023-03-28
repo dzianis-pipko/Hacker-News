@@ -1,22 +1,15 @@
-import React, { memo } from "react";
+import { CommentItem } from "../types/types";
 import { Comment } from "./Comment";
-
 interface CommentsProps {
-  commentsIds: number[];
-  refresh: boolean;
+  comments: CommentItem[];
 }
 
-export const Comments = memo(({ commentsIds, refresh }: CommentsProps) => {
+export const Comments = ({ comments }: CommentsProps) => {
   return (
     <>
-      {commentsIds.map(
-        (id, i) =>
-          id && (
-            <React.Fragment key={i}>
-              <Comment refresh={refresh} commentId={id} />
-            </React.Fragment>
-          )
-      )}
+      {comments?.map((comment) => (
+        <Comment key={comment.id} comment={comment} />
+      ))}
     </>
   );
-});
+};

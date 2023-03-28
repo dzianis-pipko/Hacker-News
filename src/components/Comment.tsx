@@ -1,62 +1,55 @@
-import { Typography, Card, CardActionArea } from "@mui/material";
-import { memo, useEffect, useState } from "react";
-import { getNewStory } from "../api";
-import { NewsItem } from "../types";
-import { Loading } from "./Loading";
-import { Comments } from "./Comments";
+import { Button, Card, CardContent, Typography } from "@mui/material";
+import { useCallback, useState } from "react";
+import { CommentItem } from "../types/types";
+import { ChildComments } from "./ChildComments";
 
 interface CommentProps {
-  commentId: number;
-  refresh: boolean;
+  comment: CommentItem;
 }
 
-export const Comment = memo(({ commentId, refresh }: CommentProps) => {
-  const [comment, setComment] = useState<NewsItem>();
-  const [loading, setLoading] = useState<boolean>(false);
+export const Comment = ({
+  comment: { author, text, parent, date, kids },
+}: CommentProps) => {
+  const [isOpenComments, setIsOpenComments] = useState<boolean>(false);
 
-  const loadComment = async () => {
-    setLoading(true);
-    const commentData = await getNewStory(commentId);
-    setComment(commentData);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    loadComment();
-  }, [refresh]);
+  const openChildComments = useCallback(() => {
+    setIsOpenComments(!isOpenComments);
+  }, []);
 
   return (
-    <>
-      {comment && (
-        <>
-          {loading ? (
-            <Loading />
-          ) : (
-            <Card
-              sx={{ mixWidth: 345, mb: 3, mt: 3, backgroundColor: "#edf3f1" }}
-            >
-              <CardActionArea sx={{ padding: 2 }}>
-                <Typography gutterBottom variant="h6" component="div">
-                  Author: {comment.author}
-                </Typography>
+    <Card
+      sx={{
+        mixWidth: 345,
+        mb: 3,
+        mt: 3,
+        backgroundColor: "#edf3f1",
+      }}
+    >
+      <CardContent sx={{ padding: 2 }}>
+        <Typography gutterBottom variant="h6" component="div">
+          Author: {author}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Text: {text}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Parent: {parent}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Date: {date && date.toLocaleDateString()}
+        </Typography>
+        {kids && (
+          <Button
+            onClick={openChildComments}
+            variant="text"
+            sx={{ mt: 1, mb: 1 }}
+          >
+            Open child comments
+          </Button>
+        )}
 
-                <Typography variant="body2" color="text.secondary">
-                  Text: {comment.text}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Parent: {comment.parent}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Date: {comment.date.toLocaleDateString()}
-                </Typography>
-                {comment.kids && (
-                  <Comments refresh={refresh} commentsIds={comment.kids} />
-                )}
-              </CardActionArea>
-            </Card>
-          )}
-        </>
-      )}
-    </>
+        {isOpenComments && kids && <ChildComments kids={kids} />}
+      </CardContent>
+    </Card>
   );
-});
+};
