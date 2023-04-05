@@ -26,6 +26,5 @@ export const getComment = async (commentId: number): Promise<CommentItem> => {
 
 export const getCommentAll = async (commentIds: number[]): Promise<CommentItem[]> => {
 	const commentAll: CommentItem[] = await Promise.all<Promise<CommentItem>[]>(commentIds.map(getComment));
-	console.log('commentAll: ', commentAll);
 	return commentAll;
 };

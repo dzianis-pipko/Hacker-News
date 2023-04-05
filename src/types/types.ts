@@ -1,5 +1,5 @@
 export interface StoryItem {
-  id: number;
+	id: number;
 	title: string;
 	url: string;
 	date: Date;
@@ -12,11 +12,11 @@ export interface StoryItem {
 }
 
 export interface CommentItem {
-  id: number;
-  date: Date;
+	id: number;
+	date: Date;
 	author: string;
 	kids: number[]| undefined;
 	text: string;
-  parent: string;
+	parent: string;
 	type: string;
 }
